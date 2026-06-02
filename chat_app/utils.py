@@ -28,7 +28,7 @@ def send_report_email(file_path, recipient_email):
 
 
 
-def generate_business_report(customers, sales):
+def generate_business_report(customers, sales, analysis):
     doc = Document()
 
     doc.add_heading("Business Performance Report", 0)
@@ -40,9 +40,8 @@ def generate_business_report(customers, sales):
     doc.add_paragraph(f"Total Sales: KES {sales}")
 
     doc.add_heading("Analysis", level=1)
-    doc.add_paragraph(
-        "This report summarizes the current business performance based on available data."
-    )
+    print(analysis)  # DEBUG
+    doc.add_paragraph(analysis)
 
     file_path = "business_report.docx"
     doc.save(file_path)

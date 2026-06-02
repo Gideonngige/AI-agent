@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 from chat_app.utils import generate_business_report, send_report_email
+from datetime import datetime
 
 client = genai.Client(
     api_key=os.environ.get("GEMINI_API_KEY")
@@ -59,8 +60,25 @@ def ask_agent3(message, email):
     if "report" in message_lower:
         customers = get_total_customers()
         sales = get_total_sales()
+        # generate report from AI agent
+        paragraph = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=f"""
+                You are a business assistant.
 
-        file_path = generate_business_report(customers, sales)
+                Known data:
+                - Current date: {datetime.now()}
+                - Department: Sales
+                - Customers: {customers}
+                - Sales: KES {sales}
+
+                User request: {message}
+
+                Generate a concise business report based on the above data and user request.
+            """
+        )
+
+        file_path = generate_business_report(customers, sales, paragraph.text)
 
         send_report_email(file_path, email)
 
