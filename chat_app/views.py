@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .services.agent import ask_agent, ask_agent2
+from .services.agent import ask_agent, ask_agent2, ask_agent3
 from .models import ChatMessage
 
 def index(request):
@@ -45,6 +45,50 @@ def chat2(request):
 
     try:
         answer = ask_agent2(message)
+
+        return Response(
+            {
+                "success": True,
+                "reply": answer
+            },
+            status=status.HTTP_200_OK
+        )
+
+    except Exception as e:
+        return Response(
+            {
+                "success": False,
+                "error": str(e)
+            },
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['POST'])
+def chat3(request):
+    message = request.data.get("message")
+    email = request.data.get("email")
+
+    if not message:
+        return Response(
+            {
+                "success": False,
+                "message": "Message is required."
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if not email:
+        return Response(
+            {
+                "success": False,
+                "message": "Email is required."
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        answer = ask_agent3(message, email)
 
         return Response(
             {

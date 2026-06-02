@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path("chat/", views.chat, name="chat"),
     path("chat2/", views.chat2, name="chat2"),
+    path("chat3/", views.chat3, name="chat3"),
 ]
