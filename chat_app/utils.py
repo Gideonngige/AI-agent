@@ -40,7 +40,6 @@ def generate_business_report(customers, sales, analysis):
     doc.add_paragraph(f"Total Sales: KES {sales}")
 
     doc.add_heading("Analysis", level=1)
-    print(analysis)  # DEBUG
     doc.add_paragraph(analysis)
 
     file_path = "business_report.docx"
